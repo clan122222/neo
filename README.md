@@ -77,11 +77,3 @@ https://clan122222.github.io/neo/
 ```sh
 opkg update; opkg install wget-ssl ca-certificates || opkg install curl ca-certificates || true; URL=https://clan122222.github.io/neo/install.sh; WGET=/opt/libexec/wget-ssl; [ -x "$WGET" ] || WGET=wget; if "$WGET" -O /opt/tmp/neofit-install.sh "$URL"; then NEOFIT_BASE_URL=https://clan122222.github.io/neo/local-feed sh /opt/tmp/neofit-install.sh; else curl -fsSL "$URL" -o /opt/tmp/neofit-install.sh && NEOFIT_BASE_URL=https://clan122222.github.io/neo/local-feed sh /opt/tmp/neofit-install.sh; fi
 ```
-
-## Важно
-
-- Сейчас feed подготовлен под `aarch64-k3.10`, это подходит для твоего Keenetic Ultra.
-- Папки `mipselsf-k3.4` и `mipssf-k3.4` пока содержат только пустые индексы.
-- Если репозиторий private, raw-ссылки будут отдавать `404`.
-- Права на NeoFit, sing-box, Xray и Entware-пакеты остаются у их авторов и сопровождающих.
-- Для VLESS на практике сейчас лучше использовать Xray-страницу NeoFit, а sing-box оставить как отдельный backend с автофиксом конфига.
