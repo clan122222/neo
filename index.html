@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NeoFit Installer</title>
+  <title>NeoFit Compatible Installer</title>
   <style>
     :root {
       --bg: #101515;
@@ -128,10 +128,11 @@
 <body>
   <main>
     <p class="eyebrow">Keenetic + Entware</p>
-    <h1>NeoFit одной командой</h1>
+    <h1>Установщик для NeoFit</h1>
     <p class="lead">
-      Установщик ставит NeoFit, sing-box-go 1.13.4, Xray и автофикс конфига sing-box
-      без подключения чужого NeoFit-feed.
+      Совместимый installer/feed ставит NeoFit, sing-box-go 1.13.4, Xray и автофикс
+      конфига sing-box. Это не оригинальный проект NeoFit, а вспомогательная сборка
+      для Keenetic + Entware.
     </p>
 
     <div id="command" class="command">sh -c "$(wget -O- https://raw.githubusercontent.com/clan122222/neo/main/install.sh)"</div>
@@ -139,13 +140,14 @@
     <div class="actions">
       <button type="button" onclick="copyCommand()">Скопировать команду</button>
       <a href="README.md">Инструкция</a>
+      <a href="NOTICE.md">Атрибуция</a>
       <a href="local-feed/release/keenetic/aarch64-k3.10/Packages">OPKG index</a>
     </div>
 
     <section class="notes">
       <div class="note"><strong>Версия sing-box</strong>Закреплена 1.13.4, чтобы NeoFit не откатил пакет.</div>
       <div class="note"><strong>Автофикс</strong>nf-sb13-watch чинит старый формат конфига после сохранения в NeoFit.</div>
-      <div class="note"><strong>Важно</strong>Raw-команда работает только если репозиторий public.</div>
+      <div class="note"><strong>Важно</strong>Права на NeoFit и пакеты остаются у upstream-авторов.</div>
     </section>
   </main>
 

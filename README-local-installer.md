@@ -1,6 +1,8 @@
-# NeoFit local installer for Keenetic
+# NeoFit compatible local installer for Keenetic
 
-This folder contains a local, PC-hosted installer for NeoFit on Keenetic + Entware.
+This folder contains a local, PC-hosted compatible installer/feed for NeoFit on Keenetic + Entware.
+
+This repository is not the original NeoFit project. NeoFit is maintained by its upstream author `pegakmop`; this kit only provides installer/feed packaging and sing-box 1.13.x compatibility helpers. See `NOTICE.md`.
 
 Goal:
 
@@ -11,7 +13,7 @@ Goal:
 
 Important limitation:
 
-The public `pegakmop/neofit` repository does not include the Go backend source code, only README and HTML pages. Because of that, this kit does not rebuild NeoFit itself. It mirrors the `.ipk` packages locally and adds a compatibility script for new sing-box config format.
+The public `pegakmop/neofit` repository does not include the Go backend source code, only README and HTML pages. Because of that, this kit does not rebuild NeoFit itself. It mirrors selected third-party `.ipk` package artifacts locally and adds compatibility scripts for the new sing-box config format.
 
 ## Layout
 
@@ -99,3 +101,4 @@ nf-sb13-fix && /opt/etc/init.d/S99sing-box restart
 - The current prepared feed is for `aarch64-k3.10`, matching your router.
 - For `mipsel` or `mips`, add the corresponding `.ipk` files to `local-feed/release/keenetic/mipselsf-k3.4` or `local-feed/release/keenetic/mipssf-k3.4` and rerun the index builder.
 - The installer installs local `.ipk` files directly, so the router does not need to fetch NeoFit from public custom repositories.
+- Rights to NeoFit, sing-box, Xray, Entware, and package artifacts remain with their respective upstream authors and maintainers.

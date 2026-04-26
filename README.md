@@ -1,10 +1,12 @@
-# NeoFit Keenetic One-Command Installer
+# NeoFit Keenetic Compatible Installer
 
-Готовое решение для установки NeoFit на Keenetic + Entware без стороннего NeoFit-репозитория.
+Совместимый установщик/feed для установки NeoFit на Keenetic + Entware одной командой.
+
+Этот репозиторий не является оригинальным проектом NeoFit. NeoFit принадлежит его upstream-автору `pegakmop`; здесь лежат установочные скрипты, локальный/GitHub OPKG-feed и helper-скрипты совместимости для sing-box 1.13.x. Подробнее: [NOTICE.md](NOTICE.md).
 
 Что внутри:
 
-- локальный OPKG-feed с пакетами NeoFit, sing-box-go 1.13.4 и Xray;
+- локальный OPKG-feed с пакетами третьих сторон: NeoFit, sing-box-go 1.13.4 и Xray;
 - установщик одной командой с GitHub;
 - фикс совместимости NeoFit -> sing-box 1.13.x;
 - watcher, который чинит конфиг sing-box после сохранения из веб-интерфейса NeoFit;
@@ -105,4 +107,5 @@ NEOFIT_BASE_URL=https://clan122222.github.io/neo/local-feed sh -c "$(wget -O- ht
 - Сейчас feed подготовлен под `aarch64-k3.10`, это подходит для твоего Keenetic Ultra.
 - Папки `mipselsf-k3.4` и `mipssf-k3.4` пока содержат только пустые индексы.
 - Если репозиторий private, raw-ссылки будут отдавать `404`.
+- Права на NeoFit, sing-box, Xray и Entware-пакеты остаются у их авторов и сопровождающих.
 - Для VLESS на практике сейчас лучше использовать Xray-страницу NeoFit, а sing-box оставить как отдельный backend с автофиксом конфига.
