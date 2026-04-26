@@ -9,8 +9,7 @@
 - локальный OPKG-feed с пакетами третьих сторон: NeoFit, sing-box-go 1.13.4 и Xray;
 - установщик одной командой с GitHub;
 - фикс совместимости NeoFit -> sing-box 1.13.x;
-- watcher, который чинит конфиг sing-box после сохранения из веб-интерфейса NeoFit;
-- локальный режим установки с ПК, если GitHub или wget на роутере недоступны.
+- watcher, который чинит конфиг sing-box после сохранения из веб-интерфейса NeoFit.
 
 ## Установка одной командой
 
@@ -70,23 +69,6 @@ nf-sb13-fix
 sing-box check -c /opt/etc/sing-box/config.json
 /opt/etc/init.d/S99sing-box restart
 ```
-
-## Локальная установка с ПК
-
-Если не хочешь скачивать с GitHub, запусти feed на компьютере:
-
-```powershell
-cd "C:\Users\clan1\OneDrive\Desktop\codex\Progect_Codex_wibe_coding\codex_ai_operating_system\_quarantine_project\Neo_fit"
-.\serve-local-feed.ps1
-```
-
-На роутере:
-
-```sh
-BASE_URL=http://PC_IP:8000 sh -c "$(wget -O- http://PC_IP:8000/install-neofit-local.sh)"
-```
-
-`PC_IP` замени на IP компьютера в локальной сети.
 
 ## GitHub Pages
 
