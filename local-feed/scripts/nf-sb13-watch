@@ -1,0 +1,42 @@
+#!/bin/sh
+
+CONFIG="${CONFIG:-/opt/etc/sing-box/config.json}"
+FIXER="${FIXER:-/opt/bin/nf-sb13-fix}"
+LOG="${LOG:-/opt/var/log/nf-sb13-watch.log}"
+INTERVAL="${INTERVAL:-5}"
+LAST=""
+
+fingerprint() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$CONFIG" 2>/dev/null
+  elif command -v md5sum >/dev/null 2>&1; then
+    md5sum "$CONFIG" 2>/dev/null
+  else
+    stat "$CONFIG" 2>/dev/null || ls -l "$CONFIG" 2>/dev/null
+  fi
+}
+
+mkdir -p /opt/var/log
+echo "nf-sb13-watch started" >> "$LOG"
+
+while true; do
+  if [ -f "$CONFIG" ]; then
+    CURRENT="$(fingerprint)"
+    if [ "$CURRENT" != "$LAST" ]; then
+      LAST="$CURRENT"
+      sleep 1
+      if ! sing-box check -c "$CONFIG" >/dev/null 2>&1; then
+        echo "$(date) fixing $CONFIG" >> "$LOG"
+        "$FIXER" >> "$LOG" 2>&1
+        if sing-box check -c "$CONFIG" >/dev/null 2>&1; then
+          echo "$(date) restarting sing-box" >> "$LOG"
+          /opt/etc/init.d/S99sing-box restart >> "$LOG" 2>&1
+          LAST="$(fingerprint)"
+        else
+          echo "$(date) config still invalid after fix" >> "$LOG"
+        fi
+      fi
+    fi
+  fi
+  sleep "$INTERVAL"
+done

@@ -1,0 +1,67 @@
+Package: ca-bundle
+Version: 20250419-2
+Depends: libc, libssp, librt, libpthread
+Provides: ca-bundle-any, ca-certs, ca-certificates-any
+Source: feeds/base/system/ca-certificates
+SourceName: ca-certificates
+License: GPL-2.0-or-later MPL-2.0
+LicenseFiles: debian/copyright
+Section: base
+SourceDateEpoch: 1770991522
+Architecture: all
+Installed-Size: 235520
+Description:  System CA certificates as a bundle
+Filename: ca-bundle_20250419-2_all.ipk
+Size: 131045
+SHA256sum: e4206917b1aa53a1a365fb21909da79d6b2d0b6b15fa50f79a4221fcb6d6192d
+
+Package: neofit
+Version: 1.1.1-5.8.2
+Architecture: aarch64-3.10
+Maintainer: pegakmop
+Depends: busybox
+Section: net
+Priority: optional
+Description: Automates configuration neofit version 1.1.1-5.8.2 of sing-box-go and xray: importing profiles via a link, compiling JSON configuration, creating system interfaces.
+Filename: neofit_1.1.1-5.8.2_aarch64-3.10.ipk
+Size: 1556439
+SHA256sum: 932371bb2f2887f0b1064581e55732cad28f88f99579c20d54ab734d68ec846a
+
+Package: sing-box-go
+Version: 1.13.4
+Depends: libc, libssp, librt, libpthread
+Source: feeds/golang/sing-box-go
+SourceName: sing-box
+Section: net
+URL: https://sing-box.sagernet.org
+Maintainer: Entware team, https://entware.net
+Architecture: aarch64-3.10
+Description:  Sing-box is a fast, customizable and universal proxy platform that
+ can be used to create network proxy servers, clients and transparent proxies.
+Filename: sing-box-go_1.13.4_aarch64-3.10.ipk
+Size: 10932977
+SHA256sum: e9625f1659aecd40e0ef7796dcaca8a51f4a57c3348771ad30cd728ca1d81814
+
+Package: xray-core
+Version: v26.2.6
+Depends: libc, libssp, librt, libpthread, ca-bundle
+Section: net
+Architecture: aarch64-3.10
+Installed-Size: 11488824
+Maintainer: Entware team, https://entware.net
+Description: Project X originates from XTLS protocol, providing a set of network tools.
+Filename: xray-core_v26.2.6_aarch64-3.10.ipk
+Size: 11126001
+SHA256sum: 2367c1e84f8ab66a395767f899ee7851234644222677c2c780347710fd68ff74
+
+Package: xray
+Version: v26.2.6
+Depends: libc, libssp, librt, libpthread, xray-core
+Section: net
+Architecture: aarch64-3.10
+Installed-Size: 4467
+Maintainer: Entware team, https://entware.net
+Description: scripts & configs.
+Filename: xray_v26.2.6_aarch64-3.10.ipk
+Size: 2840
+SHA256sum: 673466e8cf43909da3b357810adba3068c2cbcba16788dbfb508b82e3cdd99e9

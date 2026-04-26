@@ -1,0 +1,100 @@
+#!/bin/sh
+set -u
+
+CONFIG="${1:-/opt/etc/sing-box/config.json}"
+
+if [ ! -f "$CONFIG" ]; then
+  echo "Config not found: $CONFIG"
+  exit 0
+fi
+
+if ! command -v sing-box >/dev/null 2>&1; then
+  echo "sing-box binary not found"
+  exit 1
+fi
+
+if sing-box check -c "$CONFIG" >/dev/null 2>&1; then
+  echo "sing-box config already passes check: $CONFIG"
+  exit 0
+fi
+
+BACKUP="$CONFIG.bak.$(date +%Y%m%d%H%M%S)"
+TMP="$CONFIG.tmp.$$"
+cp "$CONFIG" "$BACKUP" || exit 1
+
+# NeoFit-generated configs for older sing-box versions place legacy inbound
+# sniff fields inside inbound objects. sing-box 1.13 removed those fields.
+sed \
+  -e '/"sniff"[[:space:]]*:/d' \
+  -e '/"sniff_override_destination"[[:space:]]*:/d' \
+  -e '/"domain_strategy"[[:space:]]*:/d' \
+  "$CONFIG" > "$TMP" || {
+    rm -f "$TMP"
+    exit 1
+  }
+
+# If the removed key was the last field in an object, clean the dangling comma.
+sed ':a;N;$!ba;s/,\n\([[:space:]]*[}\]]\)/\n\1/g' "$TMP" > "$TMP.2" && mv "$TMP.2" "$TMP"
+
+
+mv "$TMP" "$CONFIG" || exit 1
+
+if sing-box check -c "$CONFIG"; then
+  echo "Migrated sing-box config for 1.13+: $CONFIG"
+  echo "Backup: $BACKUP"
+  exit 0
+fi
+
+if grep -q '"tag"[[:space:]]*:[[:space:]]*"dns-out"' "$BACKUP" && grep -q '"type"[[:space:]]*:[[:space:]]*"shadowsocks"' "$BACKUP"; then
+  LISTEN="$(sed -n 's/.*"listen"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$BACKUP" | head -n 1)"
+  LISTEN_PORT="$(sed -n 's/.*"listen_port"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' "$BACKUP" | head -n 1)"
+  NETWORK="$(sed -n 's/.*"network"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$BACKUP" | head -n 1)"
+  METHOD="$(sed -n 's/.*"method"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$BACKUP" | head -n 1)"
+  PASSWORD="$(sed -n 's/.*"password"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$BACKUP" | head -n 1)"
+  [ -n "$LISTEN" ] || LISTEN="::"
+  [ -n "$LISTEN_PORT" ] || LISTEN_PORT="8080"
+  [ -n "$NETWORK" ] || NETWORK="tcp"
+  [ -n "$METHOD" ] || METHOD="2022-blake3-aes-128-gcm"
+  [ -n "$PASSWORD" ] || PASSWORD="8JCsPssfgS8tiRwiMlhARg=="
+  cat > "$CONFIG" <<EOF
+{
+  "log": {
+    "level": "info"
+  },
+  "dns": {
+    "servers": [
+      {
+        "address": "tls://8.8.8.8"
+      }
+    ]
+  },
+  "inbounds": [
+    {
+      "type": "shadowsocks",
+      "listen": "$LISTEN",
+      "listen_port": $LISTEN_PORT,
+      "network": "$NETWORK",
+      "method": "$METHOD",
+      "password": "$PASSWORD"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct"
+    }
+  ],
+  "route": {
+    "rules": []
+  }
+}
+EOF
+  if sing-box check -c "$CONFIG"; then
+    echo "Migrated default sing-box config for 1.13+: $CONFIG"
+    echo "Backup: $BACKUP"
+    exit 0
+  fi
+fi
+
+echo "Migration failed, restoring backup: $BACKUP"
+cp "$BACKUP" "$CONFIG"
+exit 1

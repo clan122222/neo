@@ -1,0 +1,8 @@
+*.sh text eol=lf
+local-feed/scripts/* text eol=lf
+local-feed/release/keenetic/*/Packages text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.ps1 text eol=crlf
+*.ipk binary
+*.gz binary

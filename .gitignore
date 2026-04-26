@@ -1,0 +1,4 @@
+local-feed-server.log
+local-feed-server.err.log
+*.tmp
+*.bak

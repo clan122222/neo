@@ -1,0 +1,44 @@
+#!/bin/sh
+
+WATCH="/opt/bin/nf-sb13-watch"
+DESC="nf-sb13-watch"
+
+pids() {
+  ps w 2>/dev/null | awk '$0 ~ "/opt/bin/[n]f-sb13-watch($| )" { print $1 }'
+}
+
+case "$1" in
+  start)
+    if [ -n "$(pids)" ]; then
+      echo "Starting $DESC... already running."
+      exit 0
+    fi
+    echo "Starting $DESC..."
+    "$WATCH" >/dev/null 2>&1 &
+    sleep 1
+    [ -n "$(pids)" ] && echo "done." || echo "failed."
+    ;;
+  stop)
+    echo "Stopping $DESC..."
+    for pid in $(pids); do
+      kill "$pid" 2>/dev/null || true
+    done
+    sleep 1
+    ;;
+  restart)
+    "$0" stop
+    "$0" start
+    ;;
+  status|check)
+    if [ -n "$(pids)" ]; then
+      echo "Checking $DESC... alive."
+      exit 0
+    fi
+    echo "Checking $DESC... dead."
+    exit 1
+    ;;
+  *)
+    echo "Usage: $0 (start|stop|restart|status|check)"
+    exit 1
+    ;;
+esac
