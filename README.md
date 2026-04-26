@@ -18,13 +18,7 @@
 Команда для роутера:
 
 ```sh
-sh -c "$(wget -O- https://raw.githubusercontent.com/clan122222/neo/main/install.sh)"
-```
-
-Если `wget` не работает, но есть `curl`:
-
-```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/clan122222/neo/main/install.sh)"
+opkg update; opkg install wget-ssl ca-certificates || opkg install curl ca-certificates || true; URL=https://raw.githubusercontent.com/clan122222/neo/main/install.sh; if wget -O /opt/tmp/neofit-install.sh "$URL"; then sh /opt/tmp/neofit-install.sh; else curl -fsSL "$URL" -o /opt/tmp/neofit-install.sh && sh /opt/tmp/neofit-install.sh; fi
 ```
 
 После установки:
@@ -81,7 +75,7 @@ https://clan122222.github.io/neo/
 Для Pages можно использовать такую команду:
 
 ```sh
-NEOFIT_BASE_URL=https://clan122222.github.io/neo/local-feed sh -c "$(wget -O- https://clan122222.github.io/neo/install.sh)"
+opkg update; opkg install wget-ssl ca-certificates || opkg install curl ca-certificates || true; URL=https://clan122222.github.io/neo/install.sh; if wget -O /opt/tmp/neofit-install.sh "$URL"; then NEOFIT_BASE_URL=https://clan122222.github.io/neo/local-feed sh /opt/tmp/neofit-install.sh; else curl -fsSL "$URL" -o /opt/tmp/neofit-install.sh && NEOFIT_BASE_URL=https://clan122222.github.io/neo/local-feed sh /opt/tmp/neofit-install.sh; fi
 ```
 
 ## Важно

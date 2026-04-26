@@ -7,6 +7,14 @@ set -u
 REPO_RAW_BASE="${NEOFIT_BASE_URL:-https://raw.githubusercontent.com/clan122222/neo/main/local-feed}"
 TMP_INSTALLER="/opt/tmp/install-neofit-github.sh"
 
+ensure_download_tools() {
+  if command -v opkg >/dev/null 2>&1; then
+    echo "Preparing HTTPS download tools..."
+    opkg update || true
+    opkg install wget-ssl ca-certificates || opkg install curl ca-certificates || true
+  fi
+}
+
 fetch() {
   url="$1"
   out="$2"
@@ -25,6 +33,7 @@ fetch() {
 echo "NeoFit GitHub installer"
 echo "Feed: $REPO_RAW_BASE"
 mkdir -p /opt/tmp
+ensure_download_tools
 fetch "$REPO_RAW_BASE/install-neofit-local.sh" "$TMP_INSTALLER"
 chmod +x "$TMP_INSTALLER"
 BASE_URL="$REPO_RAW_BASE" "$TMP_INSTALLER"
