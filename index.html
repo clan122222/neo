@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NeoFit Installer</title>
+  <style>
+    :root {
+      --bg: #101515;
+      --panel: #172120;
+      --panel-2: #20322f;
+      --text: #edf7ef;
+      --muted: #99aaa4;
+      --accent: #00f0bf;
+      --accent-2: #ffcc66;
+      --border: rgba(0, 240, 191, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 15%, rgba(0, 240, 191, 0.15), transparent 32rem),
+        radial-gradient(circle at 80% 80%, rgba(255, 204, 102, 0.13), transparent 28rem),
+        linear-gradient(135deg, #0b0f10 0%, var(--bg) 45%, #07100e 100%);
+      display: grid;
+      place-items: center;
+      padding: 32px;
+    }
+
+    main {
+      width: min(960px, 100%);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(23, 33, 32, 0.94), rgba(12, 18, 18, 0.92));
+      box-shadow: 0 24px 90px rgba(0, 0, 0, 0.45);
+      padding: clamp(24px, 5vw, 56px);
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 7vw, 76px);
+      line-height: 0.95;
+    }
+
+    .lead {
+      color: var(--muted);
+      max-width: 720px;
+      font-size: clamp(17px, 2vw, 22px);
+      line-height: 1.55;
+      margin: 24px 0 36px;
+    }
+
+    .command {
+      background: #06100f;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      overflow-x: auto;
+      color: var(--accent);
+      font: 700 15px/1.6 "Cascadia Mono", "Consolas", monospace;
+      white-space: pre;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    button, a {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    button {
+      background: var(--accent);
+      color: #031210;
+    }
+
+    a {
+      background: var(--panel-2);
+      color: var(--text);
+    }
+
+    .notes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .note {
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 18px;
+      color: var(--muted);
+    }
+
+    .note strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Keenetic + Entware</p>
+    <h1>NeoFit одной командой</h1>
+    <p class="lead">
+      Установщик ставит NeoFit, sing-box-go 1.13.4, Xray и автофикс конфига sing-box
+      без подключения чужого NeoFit-feed.
+    </p>
+
+    <div id="command" class="command">sh -c "$(wget -O- https://raw.githubusercontent.com/clan122222/neo/main/install.sh)"</div>
+
+    <div class="actions">
+      <button type="button" onclick="copyCommand()">Скопировать команду</button>
+      <a href="README.md">Инструкция</a>
+      <a href="local-feed/release/keenetic/aarch64-k3.10/Packages">OPKG index</a>
+    </div>
+
+    <section class="notes">
+      <div class="note"><strong>Версия sing-box</strong>Закреплена 1.13.4, чтобы NeoFit не откатил пакет.</div>
+      <div class="note"><strong>Автофикс</strong>nf-sb13-watch чинит старый формат конфига после сохранения в NeoFit.</div>
+      <div class="note"><strong>Важно</strong>Raw-команда работает только если репозиторий public.</div>
+    </section>
+  </main>
+
+  <script>
+    async function copyCommand() {
+      const text = document.getElementById("command").textContent;
+      await navigator.clipboard.writeText(text);
+      const button = document.querySelector("button");
+      const oldText = button.textContent;
+      button.textContent = "Скопировано";
+      setTimeout(() => button.textContent = oldText, 1600);
+    }
+  </script>
+</body>
+</html>
