@@ -45,7 +45,9 @@ fetch() {
   url="$1"
   out="$2"
   rm -f "$out"
-  if command -v wget >/dev/null 2>&1; then
+  if [ -x /opt/libexec/wget-ssl ]; then
+    /opt/libexec/wget-ssl -O "$out" "$url"
+  elif command -v wget >/dev/null 2>&1; then
     wget -O "$out" "$url"
   elif command -v curl >/dev/null 2>&1; then
     curl -fL -o "$out" "$url"

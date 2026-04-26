@@ -135,7 +135,7 @@
       для Keenetic + Entware.
     </p>
 
-    <div id="command" class="command">opkg update; opkg install wget-ssl ca-certificates || opkg install curl ca-certificates || true; URL=https://raw.githubusercontent.com/clan122222/neo/main/install.sh; if wget -O /opt/tmp/neofit-install.sh "$URL"; then sh /opt/tmp/neofit-install.sh; else curl -fsSL "$URL" -o /opt/tmp/neofit-install.sh &amp;&amp; sh /opt/tmp/neofit-install.sh; fi</div>
+    <div id="command" class="command">opkg update; opkg install wget-ssl ca-certificates || opkg install curl ca-certificates || true; URL=https://raw.githubusercontent.com/clan122222/neo/main/install.sh; WGET=/opt/libexec/wget-ssl; [ -x "$WGET" ] || WGET=wget; if "$WGET" -O /opt/tmp/neofit-install.sh "$URL"; then sh /opt/tmp/neofit-install.sh; else curl -fsSL "$URL" -o /opt/tmp/neofit-install.sh &amp;&amp; sh /opt/tmp/neofit-install.sh; fi</div>
 
     <div class="actions">
       <button type="button" onclick="copyCommand()">Скопировать команду</button>

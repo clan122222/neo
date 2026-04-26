@@ -18,7 +18,7 @@
 Команда для роутера:
 
 ```sh
-opkg update; opkg install wget-ssl ca-certificates || opkg install curl ca-certificates || true; URL=https://raw.githubusercontent.com/clan122222/neo/main/install.sh; if wget -O /opt/tmp/neofit-install.sh "$URL"; then sh /opt/tmp/neofit-install.sh; else curl -fsSL "$URL" -o /opt/tmp/neofit-install.sh && sh /opt/tmp/neofit-install.sh; fi
+opkg update; opkg install wget-ssl ca-certificates || opkg install curl ca-certificates || true; URL=https://raw.githubusercontent.com/clan122222/neo/main/install.sh; WGET=/opt/libexec/wget-ssl; [ -x "$WGET" ] || WGET=wget; if "$WGET" -O /opt/tmp/neofit-install.sh "$URL"; then sh /opt/tmp/neofit-install.sh; else curl -fsSL "$URL" -o /opt/tmp/neofit-install.sh && sh /opt/tmp/neofit-install.sh; fi
 ```
 
 После установки:
@@ -75,7 +75,7 @@ https://clan122222.github.io/neo/
 Для Pages можно использовать такую команду:
 
 ```sh
-opkg update; opkg install wget-ssl ca-certificates || opkg install curl ca-certificates || true; URL=https://clan122222.github.io/neo/install.sh; if wget -O /opt/tmp/neofit-install.sh "$URL"; then NEOFIT_BASE_URL=https://clan122222.github.io/neo/local-feed sh /opt/tmp/neofit-install.sh; else curl -fsSL "$URL" -o /opt/tmp/neofit-install.sh && NEOFIT_BASE_URL=https://clan122222.github.io/neo/local-feed sh /opt/tmp/neofit-install.sh; fi
+opkg update; opkg install wget-ssl ca-certificates || opkg install curl ca-certificates || true; URL=https://clan122222.github.io/neo/install.sh; WGET=/opt/libexec/wget-ssl; [ -x "$WGET" ] || WGET=wget; if "$WGET" -O /opt/tmp/neofit-install.sh "$URL"; then NEOFIT_BASE_URL=https://clan122222.github.io/neo/local-feed sh /opt/tmp/neofit-install.sh; else curl -fsSL "$URL" -o /opt/tmp/neofit-install.sh && NEOFIT_BASE_URL=https://clan122222.github.io/neo/local-feed sh /opt/tmp/neofit-install.sh; fi
 ```
 
 ## Важно
